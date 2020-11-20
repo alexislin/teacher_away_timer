@@ -80,11 +80,11 @@ function showCountdown() {
 
             // If the count down is finished
             if (distance < 0) {
-                // TODO: time out needs to make a noise
                 clearInterval(intervalID);
                 document.getElementById("timer").innerHTML = "0m 00s";
+                document.getElementById("alarmAudio").play();
             }
-        }, 1000);
+        }, 500);
 
         document.getElementById("showTimer").style.display="block"; 
         document.getElementById("setTimer").style.display="none";
@@ -100,14 +100,21 @@ function showCountdown() {
 function showSetCountdown() {
     if (intervalID > 0) {
         clearInterval(intervalID);
+        var audio = document.getElementById("alarmAudio");
+        audio.pause();
+        audio.src = audio.src;
     }
     document.getElementById("showTimer").style.display="none"; 
     document.getElementById("setTimer").style.display="block";
+}
+
+function soundAlarm() {
 }
         </script>
     </head>
 
     <body>
+        <audio id="alarmAudio" src="https://actions.google.com/sounds/v1/alarms/mechanical_clock_ring.ogg" type="audio/ogg"></audio>
         <div class="layout">
             <label for="minutes">I will be back in...</label><br/>
             <div id="setTimer">
