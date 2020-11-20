@@ -23,7 +23,7 @@ body {
             font-size: x-large;
             background-color: white;
             /*font: large -moz-fixed;
-            font: -webkit-small-control;*/
+font: -webkit-small-control;*/
             height: 350px;
             overflow: auto;
             padding: 2px;
@@ -61,37 +61,37 @@ var intervalID = 0;
 
 function showCountdown() {
     var minutes = document.getElementById("minutes").value;
-    // TODO: set should alert if the box is empty
-    countDownDate = new Date(new Date().getTime() + minutes*60000); 
 
-    // takes about 2 seconds for setInterval to kick in, so set the initial
-    // value and let setInterval take over when it's ready
-    document.getElementById("timer").innerHTML = minutes + "m 00s ";
+    // if we have a valid # of minutes
+    if (/^\d+$/.test(minutes)) {
+        // takes about 2 seconds for setInterval to kick in, so set the initial
+        // value and let setInterval take over when it's ready
+        document.getElementById("timer").innerHTML = minutes + "m 00s ";
 
-    intervalID = setInterval(function() {
+        countDownDate = new Date(new Date().getTime() + minutes*60000); 
 
-        // Get today's date and time
-        var now = new Date().getTime();
+        intervalID = setInterval(function() {
+            var distance = countDownDate.getTime() - new Date().getTime();
 
-        // Find the distance between now and the count down date
-        var distance = countDownDate.getTime() - now;
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor(distance / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
 
-        // Time calculations for days, hours, minutes and seconds
-        var minutes = Math.floor(distance / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // If the count down is finished
+            if (distance < 0) {
+                // TODO: time out needs to make a noise
+                clearInterval(intervalID);
+                document.getElementById("timer").innerHTML = "0m 00s";
+            }
+        }, 1000);
 
-        document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
-
-        // If the count down is finished, write some text
-        if (distance < 0) {
-            // TODO: time out needs to make a noise
-            clearInterval(intervalID);
-            document.getElementById("timer").innerHTML = "0m 00s";
-        }
-    }, 1000);
-
-    document.getElementById("showTimer").style.display="block"; 
-    document.getElementById("setTimer").style.display="none";
+        document.getElementById("showTimer").style.display="block"; 
+        document.getElementById("setTimer").style.display="none";
+    }
+    else {
+        alert("Please enter a valid number of minutes.");
+    }
 
     event.preventDefault(); // disable normal form submit behavior
     return false; // prevent further bubbling of event
