@@ -81,7 +81,7 @@ function showCountdown() {
             // If the count down is finished
             if (distance < 0) {
                 clearInterval(intervalID);
-                document.getElementById("timer").innerHTML = "0m 00s";
+                document.getElementById("timer").innerHTML = "0m 0s";
                 document.getElementById("alarmAudio").play();
             }
         }, 500);
@@ -100,6 +100,8 @@ function showCountdown() {
 function showSetCountdown() {
     if (intervalID > 0) {
         clearInterval(intervalID);
+
+        // turn off alarm audio and reset
         var audio = document.getElementById("alarmAudio");
         audio.pause();
         audio.src = audio.src;
