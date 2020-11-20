@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <style>
+body {
+    font-family: Calibri, Helvetica, Arial, sans-serif;
+}
+        div {
+            margin-bottom: 40px;
+        }
+        div.layout {
+            width: 500px;
+            font-size: x-large;
+            background-color: #F4F6F7;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 25px;
+            padding: 25px;
+        }
+        #textarea {
+            -moz-appearance: textfield-multiline;
+            -webkit-appearance: textarea;
+            border: 1px solid gray;
+            font-size: x-large;
+            background-color: white;
+            /*font: large -moz-fixed;
+            font: -webkit-small-control;*/
+            height: 350px;
+            overflow: auto;
+            padding: 2px;
+            resize: both;
+            width: 500px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            font-size: x-large;
+            width: 100px;
+        }
+        #timer {
+            font-size: xxx-large;
+            font-weight: bold;
+        }
+        button {
+            font-size: large;
+            background-color: #ccff99;
+            border-color: #009900;
+            border-radius: 5px;
+            padding: 6px 8px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        </style>
+
+        <script>
+            // Set the date we're counting down to
+            var countDownDate = new Date().getTime();
+
+var intervalID = 0;
+
+function showCountdown() {
+    var minutes = document.getElementById("minutes").value;
+    // TODO: set should alert if the box is empty
+    countDownDate = new Date(new Date().getTime() + minutes*60000); 
+
+    // takes about 2 seconds for setInterval to kick in, so set the initial
+    // value and let setInterval take over when it's ready
+    document.getElementById("timer").innerHTML = minutes + "m 00s ";
+
+    intervalID = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate.getTime() - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var minutes = Math.floor(distance / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            // TODO: time out needs to make a noise
+            clearInterval(intervalID);
+            document.getElementById("timer").innerHTML = "0m 00s";
+        }
+    }, 1000);
+
+    document.getElementById("showTimer").style.display="block"; 
+    document.getElementById("setTimer").style.display="none";
+
+    event.preventDefault(); // disable normal form submit behavior
+    return false; // prevent further bubbling of event
+}
+
+function showSetCountdown() {
+    if (intervalID > 0) {
+        clearInterval(intervalID);
+    }
+    document.getElementById("showTimer").style.display="none"; 
+    document.getElementById("setTimer").style.display="block";
+}
+        </script>
+    </head>
+
+    <body>
+        <div class="layout">
+            <label for="minutes">I will be back in...</label><br/>
+            <div id="setTimer">
+                <input type="text" id="minutes"></input>&nbsp;minutes<br/>
+                <button onclick="showCountdown();">Set</button>
+            </div>
+            <div id="showTimer">
+                <span id="timer"></span><br/>
+                <button onclick="showSetCountdown()">Reset</button>
+            </div>
+            <div>
+                <label for="instructions">Right now, the class is...</label> 
+                <div id="textarea" class="instructions" contenteditable="true">
+                    working independently on their "Parts of ME: Hands" assignment on Seesaw.
+                </div>
+            </div>
+        </div>
+        <script> // equivalent to jQuery$('document').ready();
+            showSetCountdown();
+        </script>
+    </body>
+</html>
